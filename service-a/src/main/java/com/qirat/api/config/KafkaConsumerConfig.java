@@ -1,4 +1,4 @@
-package com.qirat.api.kafka.config;
+package com.qirat.api.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -19,7 +19,7 @@ public class KafkaConsumerConfig {
 
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
-    @Value(value = "${app.events.kafka.groupId}")
+    @Value(value = "${spring.kafka.consumer.group-id}")
     private String groupId;
 
     @Bean

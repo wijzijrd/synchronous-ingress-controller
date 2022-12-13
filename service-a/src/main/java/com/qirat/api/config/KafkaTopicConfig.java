@@ -1,4 +1,4 @@
-package com.qirat.api.kafka.config;
+package com.qirat.api.config;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;

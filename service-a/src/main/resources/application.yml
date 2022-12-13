@@ -1,1 +1,18 @@
+server.port: 8080
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: group-1
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+#    password: mypass
+    timeout: 60000
 
+app:
+  web:
+    base-url: http://localhost:8081
+  events:
+    topic-name: topic-a

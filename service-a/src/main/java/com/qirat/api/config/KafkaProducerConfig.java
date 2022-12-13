@@ -1,4 +1,4 @@
-package com.qirat.api.kafka.config;
+package com.qirat.api.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
