@@ -4,6 +4,23 @@ This project is a proof of concept for an synchronous to asynchronous API contro
 
 ****
 
+## Pre-requisites
+1. Docker Desktop
+2. Java 17
+3. Maven
+
+## Setup
+Startup kafka cluster
+```shell
+cd kafka-impl
+docker-compose up -d
+```
+
+Install Redis from latest DockerHub Image
+```shell
+docker run --name redis-impl -p 6379:6379 -d redis
+```
+
 ## Understanding this project
 
 
