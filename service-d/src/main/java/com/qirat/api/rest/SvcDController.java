@@ -14,50 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 @Slf4j
 @RestController
 @RequestMapping("api")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SvcDController {
 
-    private final EventPub pub;
     private final ObjectMapper mapper;
-    private final WebClient webClient;
 
-    public Mono<ResponseEntity<Void>> sync(@RequestBody final Input input) {
-        return this.webClient
-                .get()
-                .uri("/api")
-                .retrieve()
-                .toBodilessEntity();
+    public Mono<ResponseEntity<String>> sync(@RequestBody final Input input) throws JsonProcessingException {
+        input.setMessage(
+                Base64.getEncoder()
+                        .encodeToString(
+                                "I made it all the way!"
+                                        .getBytes(StandardCharsets.UTF_8)
+                        )
+        );
 
+        return Mono.just(ResponseEntity.ok(this.mapper.writeValueAsString(input)));
     }
-
-    public Mono<ResponseEntity<String>> async(
-            @RequestBody final Input input) throws JsonProcessingException {
-
-        log.info("Publish event with id {}", input.getRequestId());
-        this.pub.sendMessage(this.mapper.writeValueAsString(input));
-        return null;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

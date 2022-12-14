@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class EventSub {
     private final ObjectMapper mapper;
 
-    @KafkaListener(topics = "service-d-resp", groupId = "group-1")
+    @KafkaListener(topics = "topic-c", groupId = "group-1")
     public void listen(final String message) throws JsonProcessingException {
         log.info("Received Message in group-1: {}" , message);
 
