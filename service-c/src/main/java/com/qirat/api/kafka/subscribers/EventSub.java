@@ -2,6 +2,7 @@ package com.qirat.api.kafka.subscribers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qirat.api.kafka.publishers.EventPub;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EventSub {
     private final ObjectMapper mapper;
+    private final EventPub pub;
 
     @KafkaListener(topics = "topic-b", groupId = "group-1")
     public void listen(final String message) throws JsonProcessingException {
         log.info("Received Message in group-1: {}" , message);
-
+        this.pub.sendMessage(message);
     }
 
 }

@@ -39,7 +39,7 @@ public class SvcBController {
     public Mono<ResponseEntity<String>> async(
             @RequestBody final Input input) throws JsonProcessingException {
 
-        log.info("Publish event with id {}", input.getRequestId());
+        log.info("Publish event with id {}", input.getId());
         this.pub.sendMessage(this.mapper.writeValueAsString(input));
         return null;
     }

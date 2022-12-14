@@ -17,12 +17,12 @@ import java.util.concurrent.CompletableFuture;
 public class SessionHandler {
     private final EventCacheRepository cacheRepository;
 
-    public CompletableFuture<ResponseEntity<String>> response(@NonNull final UUID requestId) {
+    public CompletableFuture<ResponseEntity<String>> response(@NonNull final UUID id) {
 
         return CompletableFuture.supplyAsync(() -> {
             while (true) {
                 Optional<EventCacheItem> event = this.cacheRepository
-                        .findById(requestId.toString());
+                        .findById(id.toString());
 
                 if (event.isPresent())
                     return ResponseEntity.ok(

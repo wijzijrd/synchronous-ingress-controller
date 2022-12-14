@@ -48,36 +48,17 @@ public class SvcAController {
 
     }
 
+    @PostMapping(path = "/async")
     public Mono<ResponseEntity<String>> async(
             @RequestBody final Input input) throws JsonProcessingException {
 
         Instant start = Instant.now();
-        log.info("Publish event with id {}", input.getRequestId());
+        log.info("Publish event with id {}", input.getId());
         this.pub.sendMessage(this.mapper.writeValueAsString(input));
 
         // wait for published response event from service-d
-        return Mono.fromFuture(this.sessionHandler.response(input.getRequestId()))
+        return Mono.fromFuture(this.sessionHandler.response(input.getId()))
                 .doOnSuccess(stringResponseEntity ->
                         log.info("Synchronous call took: {} ms", (Instant.now().compareTo(start)/1000)));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

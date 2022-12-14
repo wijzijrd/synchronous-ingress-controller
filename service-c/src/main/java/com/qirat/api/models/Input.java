@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Getter @Setter
 public class Input {
-    private UUID requestId;
+    private UUID id;
     private String message;
 
 }
