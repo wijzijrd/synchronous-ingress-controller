@@ -5,5 +5,6 @@ spring:
     consumer:
       group-id: group-1
 
+app:
   events:
     topic-name: topic-d

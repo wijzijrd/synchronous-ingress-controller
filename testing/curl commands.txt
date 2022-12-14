@@ -1,0 +1,4 @@
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data @input.json \
+  http://localhost:8080/api/sync

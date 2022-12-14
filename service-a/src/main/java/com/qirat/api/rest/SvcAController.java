@@ -10,11 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.time.Instant;
 
 @Slf4j
 @RestController
@@ -28,25 +31,34 @@ public class SvcAController {
     private final WebClient webClient;
     private final SessionHandler sessionHandler;
 
-    public Mono<ResponseEntity<Void>> sync(@RequestBody final Input input) {
-        return this.webClient
-                .get()
-                .uri("/api")
-                .retrieve()
-                .toBodilessEntity();
+    @PostMapping(path = "/sync")
+    public Mono<ResponseEntity<String>> sync(@RequestBody final Input input) {
+        Instant start = Instant.now();
+
+        try {
+            return this.webClient
+                    .post()
+                    .uri("/api/sync")
+                    .bodyValue(input)
+                    .retrieve()
+                    .toEntity(String.class);
+        } finally {
+            log.info("Synchronous call took: {} ms", (Instant.now().compareTo(start)/1000));
+        }
 
     }
 
     public Mono<ResponseEntity<String>> async(
             @RequestBody final Input input) throws JsonProcessingException {
 
+        Instant start = Instant.now();
         log.info("Publish event with id {}", input.getRequestId());
         this.pub.sendMessage(this.mapper.writeValueAsString(input));
 
         // wait for published response event from service-d
-        return Mono.fromFuture(
-                this.sessionHandler.response(input.getRequestId())
-        );
+        return Mono.fromFuture(this.sessionHandler.response(input.getRequestId()))
+                .doOnSuccess(stringResponseEntity ->
+                        log.info("Synchronous call took: {} ms", (Instant.now().compareTo(start)/1000)));
     }
 
 
