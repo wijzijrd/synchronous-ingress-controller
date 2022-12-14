@@ -19,7 +19,7 @@ public class EventSub {
     private final EventCacheRepository cacheRepository;
     private final ObjectMapper mapper;
 
-    @KafkaListener(topics = "service-d-resp", groupId = "group-1")
+    @KafkaListener(topics = "topic-d", groupId = "group-1")
     public void listen(final String message) throws JsonProcessingException {
         log.info("Received Message in group-1: {}" , message);
 
