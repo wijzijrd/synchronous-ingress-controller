@@ -43,7 +43,7 @@ public class SvcAController {
                     .retrieve()
                     .toEntity(String.class);
         } finally {
-            log.info("Synchronous call took: {} ms", (Instant.now().compareTo(start)/1000));
+            log.info("Synchronous call took: {} ms", (Instant.now().compareTo(start)/1000000));
         }
 
     }
@@ -59,6 +59,6 @@ public class SvcAController {
         // wait for published response event from service-d
         return Mono.fromFuture(this.sessionHandler.response(input.getId()))
                 .doOnSuccess(stringResponseEntity ->
-                        log.info("Synchronous call took: {} ms", (Instant.now().compareTo(start)/1000)));
+                        log.info("Asynchronous call took: {} ms", (Instant.now().compareTo(start)/1000000)));
     }
 }
