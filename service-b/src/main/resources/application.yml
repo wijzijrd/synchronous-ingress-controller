@@ -1,0 +1,12 @@
+server.port: 8081
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: group-1
+
+app:
+  web:
+    base-url: http://localhost:8082
+  events:
+    topic-name: topic-b
