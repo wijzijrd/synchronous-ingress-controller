@@ -29,5 +29,5 @@ jobs:
           IMAGE_TAG: latest
         run: |
           ls
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./service-a/Dockerfile
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./service-a
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
